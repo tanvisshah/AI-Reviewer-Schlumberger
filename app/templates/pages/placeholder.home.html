@@ -1,0 +1,101 @@
+{% extends 'layouts/main.html' %}
+{% block title %}Home{% endblock %}
+
+
+{% block content %}
+
+<div class="progress mb-2">
+  <div id="dynamic" class="progress-bar progress-bar-success progress-bar-striped active bg-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+    <span id="current-progress"></span>
+  </div>
+</div>
+
+
+
+<div class = "row bg-light p-5 rounded">
+
+
+
+<div class="page-header" id="test1">
+  <h1>Please Upload the PowerPoint Presentation</h1>
+  
+</div>
+<!-- <p class="lead">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added within <code>#wrap</code> with <code>padding-top: 60px;</code> on the <code>.container</code>.</p> -->
+
+
+<form id="fileuploadform" action="/upload_presentation" method="POST" enctype="multipart/form-data">
+  
+  <h4><label class="form-label text-center" style="margin-top: 20px;">Choose a file</label></h4>
+  <div class = "col-sm-3">
+  <input type="file" name="file" class="form-control mb-3" accept=".ppt,.pptx" required/>
+  </div>
+  
+  
+  <h4><label class="form-label" style="margin-top: 20px;">Select an Existing Project or Enter a New Project Name</label></h4>
+
+  <div class = "col-sm-3">
+  <select class="form-select mb-3" name="projectnamedropdown" id="projectnamedropdown">
+    {% for colour in current_projects %}
+      <option  value="{{ colour }}" >{{ colour }}</option>
+    {% endfor %}     
+  </select>
+
+  
+  <input id= "customprojectname" name="projectname" class="form-control mb-3" placeholder="Add New Project Name">
+  </div>
+  
+      <button type="submit" class="btn btn-primary">Upload Presentation</button>
+<!--                    <input type="submit" />-->
+  
+</form>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    
+  if ($('#projectnamedropdown').val() == "Other"){
+
+    $('#customprojectname').show();
+  }
+  else{
+    $('#customprojectname').hide();
+  }
+  
+
+    $('#projectnamedropdown').on('change', function() {
+
+      var value = $(this).val(); var toAppend = '';
+      console.log("Value",value);
+
+       if (value == "Other") {
+         console.log("did choose other");
+                // toAppend = "<input name='projectname' placeholder='Add Project Name' required>"; $("#fileuploadform").append(toAppend); return;
+                $('#customprojectname').show();
+                $("#customprojectname").attr('required',true);
+
+        }
+        else{
+          $('#customprojectname').hide();
+          $("#customprojectname").attr('required',false);
+          console.log("Did not choose other");
+        }
+    });
+});
+
+
+$("#fileuploadform").submit(function() {
+  var current_progress = 0;
+  var interval = setInterval(function() {
+      current_progress += 2;
+      $("#dynamic")
+      .css("width", current_progress + "%")
+      .attr("aria-valuenow", current_progress)
+      .text(current_progress + "% Complete");
+      if (current_progress >= 100)
+          clearInterval(interval);
+  }, 1000);
+});
+
+   </script>
+
+</div>
+{% endblock %}

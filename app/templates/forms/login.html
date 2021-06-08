@@ -1,0 +1,62 @@
+<!doctype html>
+
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.82.0">
+    <title>Sign In to AI Reviewer</title>
+    
+
+    
+
+    <!-- Bootstrap core CSS -->
+<link href="static/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="static/assets/dist/css/signin.css" rel="stylesheet">
+  </head>
+  <body class="text-center">
+    
+    <main class="form-signin">
+      <form method="post" class="form">
+        {{ form.hidden_tag() }}
+        <h3 class="form-heading">Login <a href="{{ url_for('home') }}" title="Back to homepage"><i class="fa fa-home pull-right"></i></a></h3>
+        {{ form.username(class_ = 'form-control first-input', placeholder = form.username.label.text, required = true, autofocus = true) }}
+        {{ form.password(class_ = 'form-control last-input', placeholder = form.password.label.text, required = true) }}
+        {{ form.remember_me() }} {{ form.remember_me.label }}
+        <p class="pull-left"><a href="{{ url_for('forgot') }}">Forgot Password?</a></p>
+        
+        <p class="pull-right"><a href="{{ url_for('register') }}">Register</a></p>
+        <input type="submit" value="Submit" class="btn btn-primary btn-lg btn-block">
+        
+      </form>
+
+    </main>
+      
+    
+
+  </body>
+  
+
+</html>

@@ -1,0 +1,17 @@
+Fabric
+Flask-SQLAlchemy
+Flask-WTF
+WTForms
+coverage
+pdf2image
+python-pptx
+gingerit
+Flask-Session
+nltk
+Flask-Migrate
+Flask-Login
+email-validator
+numpy
+language-tool-python
+Flask-WeasyPrint
+weasyprint

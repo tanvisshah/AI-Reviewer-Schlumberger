@@ -1,0 +1,85 @@
+
+
+{% extends 'layouts/main.html' %}
+{% block title %}Projects{% endblock %}
+{% block content %}
+
+<div class="row bg-light p-5 rounded">
+
+<div class="page-header">
+  <h1>Please Select a Project</h1>
+</div>
+
+  
+    <!-- <form id="projectselection" action="">  
+      <select class="form-select form-select-sm" name="projectnamedropdown" id="projectnamedropdown">
+        {% for project,ver in project_names %}
+          <option value="{{ project }}_loop.index" >{{ project }}</option>
+        {% endfor %}     
+      </select>
+
+    </form> -->
+
+
+    <div class="row mt-4">
+      {% for text,value in summary_list %}
+      <div class="col-sm-3">
+            {% if text[0:6] != "Errors" %}
+            <h5 class="text-center">  {{value}}</h5>
+            <h9 class="">{{text.title()}}</h9>
+            {% else %}
+    
+            <!-- <h1>{{text[:6]}}</h1> -->
+    
+            {% endif %}
+            
+            <!-- <p class="card-text">
+              With supporting text below as a natural lead-in to additional content.
+            </p> -->
+      </div>
+      {%endfor%} 
+    </div>
+
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col"><h5>#</h5></th>
+      <th scope="col"><h5>Project Name</h5></th>
+      <th scope="col"><h5>Versions</h5></th>
+      
+    </tr>
+  </thead>
+
+  <tbody>
+
+
+
+    {% for project,ver in project_names %}
+    <tr>
+
+      <th scope="row">{{loop.index}}</th>
+      <td>{{project}}</td>
+      <td>
+        {% for v in ver %}
+        <span class="badge bg-primary"><a href="{{ url_for('show_corrections',projectname=project,id=v ) }}" style="color:white">{{v}}</a></span>
+        {%endfor%}
+      </td>
+
+    </tr>
+    
+    {% endfor %}
+
+  </tbody>
+</table>
+
+
+</div>
+
+</div>    
+
+
+
+
+{% endblock %}

@@ -1,0 +1,261 @@
+{% extends 'layouts/main.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" rel="stylesheet">
+<div class="row bg-light p-5 rounded">
+  <h1>Review Report: {{projectname}}  V{{version_id}} </h1>
+  
+  <input type="button" value=" Get As PDF" id="downloadbutton" >
+  
+</div>
+
+<!-- <p class="lead">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added within <code>#wrap</code> with <code>padding-top: 60px;</code> on the <code>.container</code>.</p> -->
+
+<!-- <form action="/upload_presentation" method="POST" enctype="multipart/form-data">
+  <label class="btn btn-default btn-file">
+  <input type="file" name="file[]" multiple="" />
+  </label>
+  <label class="btn btn-default btn-file">
+      <button type="submit" class="btn btn-primary mb-2">Upload Presentation(s)</button>
+                   <input type="submit" />
+  </label>
+</form> -->
+
+
+<!-- {% for value in summary_list %}
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h3 class="card-title">Special title treatment</h3>
+    <p class="card-text">
+      With supporting text below as a natural lead-in to additional content.
+    </p>
+  </div>
+</div>
+{%endfor%} -->
+
+<div class="row mt-2 shadow bg-white p-5 rounded w-115 text-center">
+  {% for text,value in summary_list %}
+  <div class="col-sm-3">
+        {% if text[0:6] != "Errors" %}
+        <h5 class="text-center">  {{value|string}}</h5>
+        <h9 class="error_text">{{text.title()[:-2]}}</h9>
+        {% else %}
+
+        <!-- <h1>{{text[:6]}}</h1> -->
+
+        {% endif %}
+        
+        <!-- <p class="card-text">
+          With supporting text below as a natural lead-in to additional content.
+        </p> -->
+  </div>
+  {%endfor%} 
+</div>
+
+<!-- {% for value in summary_list %}
+<button type="button" class="btn btn-dark">
+  {{value}} <span class="badge ms-2">0</span>
+</button>
+{%endfor%} -->
+
+<!-- <div class="row"> -->
+
+
+  <!-- {% for value in summary_list %}
+  <div class="block">
+    <div class="row">
+      <div class="span3">
+        <i class="bi bi-x" fill="red"></i>{{value}}
+      </div>
+   </div>
+
+
+  {%endfor%} -->
+
+<div class="row bg-light mt-2 p-5 rounded">
+  <div class="content-heading" class="text-right" style="margin-top:50px;"><h3> Required Slides</h3></div>
+
+    <div class="row mt-2">
+      {% for title,status in missing_titles %}
+      <div class='col-sm-2' style="margin-top: 20px;">
+  
+      {% if status == 0 %}
+      <h4><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="red" class="bi bi-x" viewBox="0 0 16 16">
+        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+      </svg><span class="badge bg-danger ms-2">{{title.title()}}</span></h4>
+      {% else %}
+      <h4><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="green" class="bi bi-check" viewBox="0 0 16 16">
+        <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+      </svg><span class="badge bg-success">{{title.title()}}</span></h4>
+
+      {% endif %}
+    </div>
+    {%endfor%}
+    </div>
+  </div>
+</div>
+
+  <div class = "row mt-2 bg-light p-5 rounded">
+
+  {% for file,error_text,i,error_per_slide in data %}
+
+  <div class = "col-sm-4 text-center" style=" margin-top: 50px;">
+    <h5><label>Slide {{i}}: {{error_per_slide[1][:-2]}} errors</label></h5>
+  <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#target_{{i}}">
+    <img src="{{url_for('slide_images', path=file)}}"} class="img-left" style="max-width:100%;" alt="{{file}}">
+  </button>
+  
+  <div class="modal fade" id="target_{{i}}" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Slide {{i}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <img src="{{url_for('slide_images', path=file)}}"} class="img-left" style="max-width:100%;" alt="{{file}}">
+          {% for text in error_text %}
+            <p>{{text}}
+            </p>
+          {% endfor %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  {%endfor%}
+
+  </div>
+  <!-- <div class = "row">
+
+    {% for file,error_text,i in data %}
+
+    <div class = "card col-sm-3" style="width: 18rem; margin-top: 50px;">
+      <img src="{{url_for('slide_images', path=file)}}"} class="img-fluid" style="max-width:100%;" alt="{{file}}">
+
+      <h3><div class = "card-title" type = "button" data-bs-toggle="modal" data-bs-target="target_{{i}}">Slide {{i}}</div></h3>
+
+      <div class="modal fade" id="target_{{i}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <h5 class="modal-title">Slide {{i}}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Write something here
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+
+    
+    </div>
+    {%endfor%}
+  </div> -->
+
+
+  <!-- SLIDES AS COLLAPSIBLES -->
+  <!-- <div class = "row">
+  {% for file,error_text,i in data %}
+  <div class="card col-sm-3" style="width: 18rem; margin-top: 50px; margin-left: 10px;">
+    <img src="{{url_for('slide_images', path=file)}}"} class="img-fluid" style="max-width:100%;" alt="{{file}}">
+    <div class="card-body">
+      <h3><div class="card-title" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample_{{i}}" aria-expanded="true" aria-controls="collapseExample_{{i}}">
+      Slide {{i}}</div></h3>
+      <div class="collapse" id="collapseExample_{{i}}">
+        <div class="card card-body">
+          {% for text in error_text %}
+            <p>{{text}}</p>
+          {% endfor %}
+        </div>
+      </div>
+      </div>
+  </div>
+  {%endfor%}
+</div> -->
+
+    <!-- <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+      Button with data-bs-target
+    </button>
+  
+  <div class="collapse" id="collapseExample">
+    <div class="card card-body">
+      Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+    </div>
+  </div> -->
+
+
+
+<!-- <div class="row">
+  {% for file,error_text,i in data %}
+  <div class="col-sm-3" style="margin-top: 50px;">
+    <div class="card", data-toggle = "collapse">
+      <img src="{{url_for('slide_images', path=file)}}"} class="img-left" style="max-width:80%;" alt="{{file}}"/>
+      <div class="card-body">
+        <h3 class="card-title">Slide {{i}}</h3>
+        <p class="card-text">
+          Insert here
+        </p>
+      
+      </div>
+    </div>
+  </div>
+  {%endfor%}
+</div> -->
+
+<!-- {% for file,error_text,i in data %}
+
+<div class="block">
+  <div class="row">
+    <div class="span4">
+      <img src="{{url_for('slide_images', path=file)}}"} class="img-left" style="max-width:40%;" alt="{{file}}">
+      <div class="content-heading" class="text-right"><h3> </h3></div>
+
+      <h3>  Slide {{i}}  </h3>
+      
+      {% for text in error_text %}
+        <p>{{text}}</p>
+      {% endfor %}
+    </div>
+
+ </div>
+  <br>
+{% endfor %}
+
+</div> -->
+
+
+<!-- <img src="static/converted_files/{{files}}" alt="{{files}}"> -->
+<script>
+  $(document).ready(function(){
+
+
+
+    $('#downloadbutton').click(function(){
+
+      var opt = {
+  margin:       0,
+  filename:     '{{projectname}}_V{{version_id}}.pdf',
+  pagebreak:    {mode: ['avoid-all']},
+  image:        { type: 'jpeg', quality: 0.98 },
+  html2canvas:  { scale: 5},
+  jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait',width:500,windowWidth: 500 }
+};
+var element = document.getElementsByTagName("main")[0];
+
+      console.log("BUTTON PRESSED");
+      html2pdf(element,opt);
+    });
+  });
+</script>
+
+
+{% endblock %}
+

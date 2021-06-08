@@ -1,0 +1,62 @@
+{% extends 'layouts/form.html' %}
+{% block title %}Register{% endblock %}
+{% block content %}
+
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Hugo 0.82.0">
+  <title>Sign In to AI Reviewer</title>
+
+  
+
+  
+
+  <!-- Bootstrap core CSS -->
+<link href="static/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+
+  
+  <!-- Custom styles for this template -->
+  <link href="static/assets/dist/css/signin.css" rel="stylesheet">
+</head>
+
+
+
+
+<main class="form-signin">
+
+  <form method="post" class="form">
+    <h3 class="form-heading">Register <a href="{{ url_for('home') }}" title="Back to homepage"><i class="fa fa-home pull-right"></i></a></h3>
+    {{ form.hidden_tag() }}
+    {{ form.username(class_ = 'form-control first-input', placeholder = form.username.label.text, required = true, autofocus = true) }}
+    {{ form.email(class_ = 'form-control', placeholder = form.email.label.text, required = true) }}
+    {{ form.password(class_ = 'form-control', placeholder = form.password.label.text, required = true) }}
+    {{ form.confirm(class_ = 'form-control last-input', placeholder = form.confirm.label.text, required = true) }}
+    <p class="pull-left"><a href="{{ url_for('login') }}">Login</a></p>
+    <input type="submit" value="Register" class="btn btn-primary btn-lg btn-block">
+    
+  </form>
+
+</main>
+
+  
+{% endblock %}
